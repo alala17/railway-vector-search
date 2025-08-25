@@ -30,4 +30,4 @@ USER app
 EXPOSE 8080
 
 # Start the application
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--timeout", "120", "app:app"]
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:app
