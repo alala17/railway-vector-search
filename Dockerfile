@@ -21,6 +21,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app.py .
 COPY query_pinecone.py .
 COPY config.py .
+COPY start.sh .
 
 # Create non-root user for security
 RUN useradd --create-home --shell /bin/bash app
@@ -30,4 +31,4 @@ USER app
 EXPOSE 8080
 
 # Start the application
-CMD gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:app
+CMD ["./start.sh"]
