@@ -432,12 +432,29 @@ def upload_file():
 @app.route('/api/health')
 def health_check():
     """Health check endpoint"""
-    return jsonify({
-        'status': 'healthy', 
-        'timestamp': datetime.utcnow().isoformat(),
-        'pinecone_index': 'paris-18',
-        'total_vectors': 636145
-    })
+    try:
+        # Check if environment variables are available
+        pinecone_api_key = os.environ.get('PINECONE_API_KEY')
+        pinecone_env = os.environ.get('PINECONE_ENVIRONMENT')
+        pinecone_index = os.environ.get('PINECONE_INDEX_NAME')
+        
+        return jsonify({
+            'status': 'healthy', 
+            'timestamp': datetime.utcnow().isoformat(),
+            'pinecone_index': pinecone_index or 'paris-18',
+            'total_vectors': 636145,
+            'env_vars_available': {
+                'PINECONE_API_KEY': bool(pinecone_api_key),
+                'PINECONE_ENVIRONMENT': bool(pinecone_env),
+                'PINECONE_INDEX_NAME': bool(pinecone_index)
+            }
+        })
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'error': str(e),
+            'timestamp': datetime.utcnow().isoformat()
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))

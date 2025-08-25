@@ -52,8 +52,8 @@ def load_dinov2_model():
                 print("Failed to load DINOv2 model after all retries")
                 raise e
 
-# Load the model
-dinov2 = load_dinov2_model()
+# Global variable for the model (will be loaded lazily)
+dinov2 = None
 
 # --- Preprocessing for DINOv2 ---
 preprocess = transforms.Compose([
@@ -75,6 +75,12 @@ def query_image_unique_addresses(image_path, top_k=5, max_results=50):
     Returns:
         List of dictionaries with unique addresses and their scores
     """
+    global dinov2
+    
+    # Load model lazily if not already loaded
+    if dinov2 is None:
+        dinov2 = load_dinov2_model()
+    
     # Load and preprocess image
     img = Image.open(image_path).convert('RGB')
     img_tensor = preprocess(img).unsqueeze(0).to(device)
