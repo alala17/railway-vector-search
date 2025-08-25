@@ -1,5 +1,4 @@
 #!/bin/bash
-# Get port from environment variable or default to 8080
-PORT=${PORT:-8080}
-echo "Starting application on port $PORT"
-exec gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 120 app:app
+# Railway typically assigns port 8080, so let's use that directly
+echo "Starting application on port 8080"
+exec gunicorn --bind 0.0.0.0:8080 --workers 1 --timeout 120 app:app
