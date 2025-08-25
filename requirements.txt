@@ -1,0 +1,12 @@
+Flask==2.3.3
+gunicorn==21.2.0
+pinecone>=7.0.0
+torch>=2.6.0
+torchvision>=0.17.0
+Pillow>=10.0.0
+opencv-python-headless>=4.8.0
+google-cloud-storage>=2.10.0
+google-cloud-logging>=3.8.0
+dinov2
+numpy>=1.24.0
+requests>=2.31.0
